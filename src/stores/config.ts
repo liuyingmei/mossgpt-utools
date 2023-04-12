@@ -46,6 +46,16 @@ export class ConfigStore {
       }
     )
 
+    const proxy = objectPick(
+      toJS(this.config.proxy || ({} as IConfig['proxy']))!,
+      ['host', 'port', 'open', 'username', 'password'],
+      {
+        filter: (val) => {
+          return !isNil(val) && val !== ''
+        },
+      }
+    )
+
     const setting = filterSameValue(
       DefaultConfig.setting,
       objectPick(toJS(this.config.setting), 'all', {
@@ -57,6 +67,7 @@ export class ConfigStore {
 
     Storage.setConfig({
       ...config,
+      proxy,
       setting,
     })
     Storage.setApiKey(this.apiKey)

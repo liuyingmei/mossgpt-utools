@@ -4,6 +4,7 @@ import { makeAutoObservable } from 'mobx'
 import { Storage } from '../shared/storage'
 import { ChatBalance } from '../types'
 import { stores } from './'
+import { getFetch } from '../shared/func/getFetch'
 
 export class ChatgptStore {
   constructor() {
@@ -33,6 +34,7 @@ export class ChatgptStore {
       apiBaseUrl: config.apiBaseUrl,
       completionParams: completionParams,
       maxModelTokens: config.max_tokens,
+      fetch: getFetch(stores.config.config.proxy),
       getMessageById: async (id: string) => {
         const message = Storage.getMessage(id).toJSON()
         // 当消息发送失败时，message.text 为空，此时使用 failedReason 作为消息内容

@@ -8,6 +8,13 @@ declare module 'uTools' {
 declare const __INTRODUCTION__: string
 
 declare interface Window {
-  preload: {}
+  preload: {
+    proxyFetch: (opts: {
+      host?: string
+      port?: string | number
+      username?: string
+      password?: string
+    }) => any
+  }
 }
 

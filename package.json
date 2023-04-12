@@ -1,7 +1,7 @@
 {
   "name": "mossgpt",
   "private": true,
-  "version": "2.4.0",
+  "version": "2.4.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
-    "@libeilong/chatgpt": "5.3.1",
+    "@libeilong/chatgpt": "5.3.2",
     "@libeilong/func": "^0.6.3",
     "@libeilong/react-store-provider": "^0.2.3",
     "@szhsin/react-menu": "^3.5.2",

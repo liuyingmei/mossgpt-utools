@@ -67,8 +67,9 @@ export class Storage {
 
   static getConfig(): IConfig {
     const config = utools.dbStorage.getItem('config')
+    const proxy = Object.assign({}, DefaultConfig.proxy, config?.proxy)
     const setting = Object.assign({}, DefaultConfig.setting, config?.setting)
-    return Object.assign({}, DefaultConfig, config, { setting })
+    return Object.assign({}, DefaultConfig, config, { proxy, setting })
   }
 
   static setConfig(config: Partial<IConfig>) {

@@ -7,6 +7,13 @@ export interface IConfig {
   top_p?: number
   presence_penalty?: number
   frequency_penalty?: number
+  proxy: {
+    host?: string
+    port?: string
+    open: boolean
+    username?: string
+    password?: string
+  }
 
   setting: {
     autoTranslation: boolean
