@@ -27,7 +27,7 @@ export const Message = (props: Props) => {
     if (message.state === 'fail' && message.text.length === 0) {
       return <p style={{ color: 'red' }}>{message.failedReason || ''}</p>
     }
-    return message.text
+    return message.renderText
   })
 
   return withObserver(() => (
