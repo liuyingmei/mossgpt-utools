@@ -3,6 +3,7 @@ import { useController } from 'oh-popup-react'
 import { FC } from 'react'
 import { withObserver } from '../../../shared/func/withObserver'
 import { popupManager } from '../../../shared/popupManager'
+import { stores } from '../../../stores'
 import { Markdown } from '../../markdown'
 import styles from './index.module.scss'
 
@@ -17,7 +18,7 @@ const Notice: FC<Props> = ({ data }) => {
     <div className={styles.index}>
       <div className={styles.header}>通知</div>
       <div>
-        <Markdown>{data}</Markdown>
+        <Markdown dark={stores.app.isDark}>{data}</Markdown>
       </div>
       <div className={styles.footer}>
         <Button size="small" type="primary" onClick={() => ctl.close()}>

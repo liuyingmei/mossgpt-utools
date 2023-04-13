@@ -47,7 +47,7 @@ export class Store {
     if (this.value === '/') {
       this.showPanel()
     } else {
-      this.panelVisible = false
+      this.hidePanel()
     }
   }
 

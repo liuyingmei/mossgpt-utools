@@ -6,7 +6,7 @@ import {
   RadarChartOutlined,
 } from '@ant-design/icons'
 import { transDict } from '@libeilong/func'
-import { Button, Dropdown } from 'antd'
+import { Button, Dropdown, Tooltip } from 'antd'
 import clsx from 'clsx'
 import { withObserver } from '../../../../shared/func/withObserver'
 import {
@@ -55,14 +55,16 @@ export const InputArea = () => {
                 {ChatBalanceDict[homeStore.conversation.balance]}
               </Button>
             </Dropdown>
-            <Button
-              icon={<DeleteOutlined />}
-              type="text"
-              block
-              onClick={store.onClearMessages}
-            >
-              清空会话
-            </Button>
+            <Tooltip title="Alt + Ctrl + L">
+              <Button
+                icon={<DeleteOutlined />}
+                type="text"
+                block
+                onClick={store.onClearMessages}
+              >
+                清空会话
+              </Button>
+            </Tooltip>
             <Button
               title="此功能正在施工中..."
               disabled

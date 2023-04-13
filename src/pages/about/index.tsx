@@ -1,7 +1,4 @@
-import {
-  GithubFilled,
-  WechatFilled
-} from '@ant-design/icons'
+import { GithubFilled, WechatFilled } from '@ant-design/icons'
 import { Button, Divider, Space } from 'antd'
 import { Markdown } from '../../components/markdown'
 import { Introduction } from '../../constance'
@@ -29,7 +26,7 @@ export const Page = () => {
 
         <Divider>说明</Divider>
         <div className={styles.help}>
-          <Markdown>{Introduction}</Markdown>
+          <Markdown dark={stores.app.isDark}>{Introduction}</Markdown>
         </div>
       </Space>
     </div>

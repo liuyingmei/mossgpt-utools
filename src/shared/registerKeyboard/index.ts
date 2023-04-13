@@ -8,6 +8,8 @@ export function registerKeyboard() {
       homeStore.createConversation()
     } else if (e.key === 'p' && e.ctrlKey) {
       openCommandPanel()
+    } else if (e.key === 'l' && e.ctrlKey && e.altKey && inHome()) {
+      homeStore.conversation?.clearMessages()
     }
   })
 }
