@@ -24,7 +24,7 @@ export class Template {
     this.title = opts.title
     this.template = opts.template
     this.shortcut = opts.shortcut ?? false
-    this.matchType = opts.matchType
+    this.matchType = opts.matchType ?? MatchType.over
     this.match = opts.match
     makeAutoObservable(this)
   }
