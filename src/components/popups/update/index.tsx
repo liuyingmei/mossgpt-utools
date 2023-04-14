@@ -3,6 +3,7 @@ import { useController } from 'oh-popup-react'
 import { FC } from 'react'
 import { withObserver } from '../../../shared/func/withObserver'
 import { popupManager } from '../../../shared/popupManager'
+import { Markdown } from '../../markdown'
 import styles from './index.module.scss'
 
 interface Props {
@@ -18,16 +19,14 @@ const Update: FC<Props> = ({ newVersion, description, onIgnore, onUpdate }) => {
   return withObserver(() => (
     <div className={styles.index}>
       <div className={styles.title}>检测到新的版本</div>
-      <div className={styles.version}>{newVersion}</div>
-      <div
-        className={styles.description}
-        dangerouslySetInnerHTML={{
-          __html: description.replaceAll('\n', '<br/>'),
-        }}
-      ></div>
-      <Alert message="下载页面上的 .upx 文件，然后拖动到 uTools 输入框即可安装更新"></Alert>
+      <div className={styles.main}>
+        <div className={styles.version}>{newVersion}</div>
+        <Markdown>{description}</Markdown>
+        <Alert message="下载页面上的 .upx 文件，然后拖动到 uTools 输入框即可安装更新"></Alert>
+      </div>
       <div className={styles.actions}>
         <Button
+          block
           onClick={() => {
             ctl.onlyClose()
             onIgnore()
@@ -36,6 +35,7 @@ const Update: FC<Props> = ({ newVersion, description, onIgnore, onUpdate }) => {
           忽略该版本
         </Button>
         <Button
+          block
           className={styles.submit}
           type="primary"
           onClick={() => {
