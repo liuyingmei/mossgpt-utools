@@ -22,16 +22,23 @@ export class Store {
   template = new Template({
     title: '',
     template: '',
+    shortcut: false,
   })
 
   onSubmit = () => {
-    if (!this.template.id) {
-      this.template.id = Date.now() + ''
-    }
+    try {
+      if (!this.template.id) {
+        this.template.id = Date.now() + ''
+      }
 
-    Storage.setTemplate(this.template)
-    message.success('保存成功')
-    router.back()
+      if (!this.template) throw Error('请输入模板内容')
+
+      this.template.flushDb()
+      message.success('保存成功')
+      router.back()
+    } catch (err: any) {
+      message.error(err.message)
+    }
   }
 
   onDel = async () => {

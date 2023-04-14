@@ -1,36 +1,7 @@
-import { Message } from './models/message'
-import { MatchType } from './models/template'
-import { IConfig, MessageShortcutKey } from './types'
+import { MatchType } from '../../models/template'
+import { Storage } from '../storage'
 
-export const Models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
-
-export const DefaultConfig: IConfig = {
-  model: Models[0],
-  apiBaseUrl: 'https://closeai.deno.dev/v1',
-  systemMessage: undefined,
-  max_tokens: undefined,
-  temperature: undefined,
-  top_p: undefined,
-  presence_penalty: undefined,
-  frequency_penalty: undefined,
-
-  proxy: {
-    open: false,
-    host: undefined,
-    port: undefined,
-    username: undefined,
-    password: undefined,
-  },
-
-  setting: {
-    autoTranslation: true,
-    autoTitle: false,
-    textSpacing: false,
-    messageShortcutKey: MessageShortcutKey.Enter,
-  },
-}
-
-export const DefaultMessageTemplates = [
+const Templates = [
   {
     title: '总结内容',
     template:
@@ -84,50 +55,31 @@ export const DefaultMessageTemplates = [
   },
 ]
 
-export const DefaultConversationTemplates: any[] = []
-
-export const dataVersion = 3
-
-export const ApiUrls = [
-  {
-    name: 'OpenAI 官方线路',
-    url: 'https://api.openai.com/v1',
-    needVpn: true,
+export default {
+  from: 2,
+  to: 3,
+  handle() {
+    try {
+      const now = Date.now()
+      for (let i = 0; i < Templates.length; i++) {
+        const id = now + i
+        const it = { ...Templates[i], id }
+        Storage.setItem(`t-${id}`, it)
+        if (it.shortcut) {
+          utools.setFeature({
+            code: `moss-messageTemplate-${it.id}`,
+            explain: it.title,
+            platform: ['win32', 'darwin', 'linux'],
+            cmds: [
+              {
+                type: it.matchType,
+                label: it.title,
+              } as any,
+            ],
+          })
+        }
+      }
+    } catch (err) {}
   },
-  {
-    name: '免费线路 - justjavac 大佬搭建',
-    url: 'https://closeai.deno.dev/v1',
-    needVpn: false,
-  },
-  {
-    name: '免费线路 - 来自群友盛先生',
-    url: 'https://cold-crow-90.deno.dev/v1',
-    needVpn: false,
-  },
-  {
-    name: '免费线路 - 来自Moss作者',
-    url: 'https://xuxmei-openai-proxy.deno.dev/v1',
-    needVpn: false,
-  },
-]
-
-export const Introduction = __INTRODUCTION__
-
-export const HelperConversation: {
-  name: string
-  messages: Pick<Message, 'text' | 'role' | 'state' | 'failedReason'>[]
-} = {
-  name: '欢迎使用 Moss',
-  messages: [
-    {
-      role: 'assistant',
-      text: '## 初次见面，我是 Moss\n' + Introduction,
-      state: 'done',
-    },
-  ],
-}
-
-export const Urls = {
-  repo: 'https://github.com/lblblong/mossgpt-utools',
 }
 

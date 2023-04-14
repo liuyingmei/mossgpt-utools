@@ -30,11 +30,11 @@ export function Page() {
 
       <div className={styles.toolbarBox}>
         <div>
-          {translationStore.config.sourceLang}
+          {translationStore.config.sourceLang.name}
           <span className={styles.icon}>
             <ArrowRightOutlined />
           </span>
-          {translationStore.config.targetLang}
+          {translationStore.config.targetLang.name}
         </div>
         <Space>
           <Button

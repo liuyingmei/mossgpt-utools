@@ -12,7 +12,7 @@ import { withObserver } from '../../shared/func/withObserver'
 import { stores } from '../../stores'
 import styles from './index.module.scss'
 
-export const BasicLayout = () => {
+export function BasicLayout() {
   const location = useLocation()
 
   const menus = [

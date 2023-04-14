@@ -5,7 +5,7 @@ import { Introduction } from '../../constance'
 import { stores } from '../../stores'
 import styles from './index.module.scss'
 
-export const Page = () => {
+export function Page() {
   return (
     <div className={styles.index}>
       <Space direction="vertical" size={18}>

@@ -1,12 +1,10 @@
-import { withStore } from '@libeilong/react-store-provider'
 import { withObserver } from '../../shared/func/withObserver'
 import { BasicSetting } from './basic'
 import styles from './index.module.scss'
 import { OtherSetting } from './other'
 import { ProxySetting } from './proxy'
-import { Store } from './store'
 
-function _Page() {
+export function Page() {
   return withObserver(() => (
     <div className={styles.index}>
       <h2>设置</h2>
@@ -27,6 +25,4 @@ function _Page() {
     </div>
   ))
 }
-
-export const Page = withStore(_Page, Store)
 

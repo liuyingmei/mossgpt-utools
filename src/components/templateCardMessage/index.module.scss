@@ -1,0 +1,35 @@
+.index {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 1px 5px rgba(38, 38, 38, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s;
+  cursor: pointer;
+  border: 1px solid var(--gray-0);
+  &:hover {
+    box-shadow: 0 6px 16px rgba(38, 38, 38, 0.14);
+  }
+
+  .header {
+    font-size: 16px;
+  }
+  .main {
+    min-height: 130px;
+    line-height: 1.5;
+    color: var(--gray-6);
+    flex: 1;
+    font-size: 12px;
+  }
+  .footer {
+    font-size: 12px;
+  }
+}
+
+.dark {
+  background: var(--nav-bar-background);
+}
+

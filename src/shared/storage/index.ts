@@ -1,6 +1,11 @@
 import { commandPanelStore } from '../../components/popups/commandPanel/store'
-import { DefaultConfig, DefaultTemplates } from '../../constance'
+import {
+  DefaultConfig,
+  DefaultConversationTemplates,
+  DefaultMessageTemplates,
+} from '../../constance'
 import { Conversation } from '../../models/conversation'
+import { ConversationTemplate } from '../../models/conversationTemplate'
 import { Message } from '../../models/message'
 import { Template } from '../../models/template'
 import { IConfig, IgnoreType } from '../../types'
@@ -55,10 +60,7 @@ export class Storage {
   }
 
   static removeMessagesByConversationId(id: string) {
-    const ids = utools.db.allDocs(`m-${id}`).map((it) => it._id)
-    for (const id of ids) {
-      utools.db.remove(id)
-    }
+    this.remove(`m-${id}`)
   }
 
   static removeMessage(id: string) {
@@ -84,15 +86,13 @@ export class Storage {
   static getTemplates() {
     let templates = utools.db.allDocs('t-').map((it) => it.value)
     if (templates.length === 0) {
-      templates = DefaultTemplates.map((it, i) => ({
-        id: Date.now() + '' + i,
-        title: it.title,
-        template: it.template,
-        recommendTopic: it.recommendTopic,
-      }))
-      for (const it of templates) {
-        this.setTemplate(new Template(it))
-      }
+      templates = DefaultMessageTemplates.map((it, i) => {
+        return new Template({
+          id: Date.now() + '' + i,
+          ...it,
+        }).flushDb()
+      })
+      return templates
     }
 
     return templates.map((it) => new Template(it))
@@ -109,6 +109,34 @@ export class Storage {
 
   static removeTemplate(id: string) {
     utools.dbStorage.removeItem(`t-${id}`)
+  }
+
+  static getConversationTemplates() {
+    let its = utools.db.allDocs('ct-').map((it) => it.value)
+    if (its.length === 0) {
+      its = DefaultConversationTemplates.map((it, i) => ({
+        id: Date.now() + '' + i,
+        ...it,
+      }))
+      for (const it of its) {
+        this.setConversationTemplate(new ConversationTemplate(it))
+      }
+    }
+
+    return its.map((it) => new Template(it))
+  }
+
+  static getConversationTemplate(id: string) {
+    const it = utools.dbStorage.getItem(`ct-${id}`)
+    return new Template(it)
+  }
+
+  static setConversationTemplate(it: ConversationTemplate) {
+    utools.dbStorage.setItem(`ct-${it.id}`, it.toJSON())
+  }
+
+  static removeConversationTemplate(id: string) {
+    utools.dbStorage.removeItem(`ct-${id}`)
   }
 
   static getLastDataVersion() {
@@ -144,6 +172,29 @@ export class Storage {
   static getIgnore(type: IgnoreType, value: string): boolean {
     const ignore = utools.dbStorage.getItem(`${type}-ignore-${value}`)
     return isNil(ignore) ? false : true
+  }
+
+  static setItem(key: string, value: any) {
+    utools.dbStorage.setItem(key, value)
+  }
+
+  static removeItem(key: string) {
+    utools.dbStorage.removeItem(key)
+  }
+
+  static getItem(key: string) {
+    utools.dbStorage.getItem(key)
+  }
+
+  static get(key?: string) {
+    return utools.db.allDocs(key) as (DbDoc & { value: any })[]
+  }
+
+  static remove(key?: string) {
+    const docs = this.get(key)
+    for (const doc of docs) {
+      utools.db.remove(doc._id)
+    }
   }
 }
 

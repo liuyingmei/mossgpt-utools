@@ -11,6 +11,11 @@
       margin: 8px 0;
       line-height: 1.8;
     }
+    pre {
+      font-family: inherit;
+      line-height: inherit;
+      word-wrap: break-word;
+    }
   }
 }
 

@@ -7,8 +7,8 @@ import { registerKeyboard } from '../registerKeyboard'
 import { update } from '../update'
 
 export const setup = () => {
-  configure({ enforceActions: 'never' })
   update()
+  configure({ enforceActions: 'never' })
   registerHooks()
   registerKeyboard()
 }

@@ -58,10 +58,7 @@ export class Store {
   }
 
   refreshTopics = () => {
-    this.topics = getRandomElements(
-      Storage.getTemplates().filter((it) => it.recommendTopic),
-      3
-    )
+    this.topics = getRandomElements(Storage.getTemplates(), 3)
   }
 }
 

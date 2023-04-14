@@ -1,12 +1,12 @@
 import react from '@vitejs/plugin-react-swc'
+import fs from 'fs'
 import copy from 'rollup-plugin-copy'
 import { defineConfig } from 'vite'
+import { replaceCodePlugin } from 'vite-plugin-replace'
+import topLevelAwait from 'vite-plugin-top-level-await'
+import wasm from 'vite-plugin-wasm'
 import { viteDelDev } from './vite.del-dev'
 import { vitePluginPreload } from './vite.preload'
-import { replaceCodePlugin } from 'vite-plugin-replace'
-import wasm from 'vite-plugin-wasm'
-import topLevelAwait from 'vite-plugin-top-level-await'
-import fs from 'fs'
 
 export default defineConfig(({ command }) => {
   const prePlugins =

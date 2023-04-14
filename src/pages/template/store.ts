@@ -1,7 +1,9 @@
 import { makeAutoObservable } from 'mobx'
+import { ConversationTemplate } from '../../models/conversationTemplate'
 import { Template } from '../../models/template'
 import { Storage } from '../../shared/storage'
 import { toTemplateForm } from '../templateForm/route'
+import { SubPage } from './type'
 
 export class Store {
   constructor() {
@@ -9,14 +11,20 @@ export class Store {
     makeAutoObservable(this)
   }
 
+  subPage = SubPage.messageTemplate
+
   keyword = ''
 
   _keyword = ''
 
   get renderTemplates() {
-    return this.templates.filter((it) =>
-      `${it.title} ${it.template}`.includes(this._keyword)
-    )
+    return this.templates.filter((it) => {
+      if (it instanceof Template) {
+        return `${it.title} ${it.template}`.includes(this._keyword)
+      } else {
+        return `${it.name} ${it.systemMessage}`.includes(this._keyword)
+      }
+    })
   }
 
   timer?: NodeJS.Timeout
@@ -31,16 +39,26 @@ export class Store {
     }, 300)
   }
 
-  templates: Template[] = []
+  templates: (Template | ConversationTemplate)[] = []
 
   onCreate = () => {
     toTemplateForm()
   }
 
-  onEdit = (it: Template) => {
+  onEdit = (it: Template | ConversationTemplate) => {
     toTemplateForm({
       query: { id: it.id! },
     })
+  }
+
+  onDel = (it: Template | ConversationTemplate) => {
+    if (it instanceof Template) {
+      it.remove()
+      this.templates = this.templates.filter((t) => t.id !== it.id)
+    } else {
+      Storage.removeConversationTemplate(it.id!)
+      this.templates = this.templates.filter((t) => t.id !== it.id)
+    }
   }
 }
 

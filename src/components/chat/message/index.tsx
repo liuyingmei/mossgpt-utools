@@ -73,12 +73,6 @@ export const Message = (props: Props) => {
           <p>
             <SyncOutlined spin />
           </p>
-        ) : message.self ? (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: `<p>${text.replace(/[\r\n]/g, '<br>')}</p>`,
-            }}
-          ></div>
         ) : (
           <Markdown dark={stores.app.isDark}>{text}</Markdown>
         )}

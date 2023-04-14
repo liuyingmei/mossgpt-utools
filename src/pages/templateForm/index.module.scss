@@ -1,5 +1,4 @@
 .index {
-  background: var(--gray-0);
   height: 100%;
   width: 100%;
   overflow-x: hidden;
@@ -7,6 +6,10 @@
   padding: 12px;
   display: flex;
   flex-direction: column;
+
+  h2 {
+    font-weight: normal;
+  }
 
   .title {
     cursor: pointer;
@@ -16,7 +19,7 @@
   }
 
   .actions {
-    margin-top: 12px;
+    margin-top: 8px;
   }
 }
 
