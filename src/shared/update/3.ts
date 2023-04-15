@@ -1,4 +1,5 @@
 import { MatchType } from '../../models/template'
+import { platform } from '../platform'
 import { Storage } from '../storage'
 
 const Templates = [
@@ -66,10 +67,9 @@ export default {
         const it = { ...Templates[i], id }
         Storage.setItem(`t-${id}`, it)
         if (it.shortcut) {
-          utools.setFeature({
+          platform.setFeature({
             code: `moss-messageTemplate-${it.id}`,
             explain: it.title,
-            platform: ['win32', 'darwin', 'linux'],
             cmds: [
               {
                 type: it.matchType,

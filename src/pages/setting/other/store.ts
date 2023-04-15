@@ -1,5 +1,6 @@
 import { Modal } from 'antd'
 import { makeAutoObservable } from 'mobx'
+import { platform } from '../../../shared/platform'
 import { stores } from '../../../stores'
 import { IConfig } from '../../../types'
 import { homeStore } from '../../home/store'
@@ -8,8 +9,8 @@ export class Store {
   constructor() {
     makeAutoObservable(this)
 
-    const convs = utools.db.allDocs('c-').map((it) => it._id)
-    const msgs = utools.db.allDocs('m-').map((it) => it._id)
+    const convs = platform.db.get('c-').map((it) => it.key)
+    const msgs = platform.db.get('m-').map((it) => it.key)
     this.storage = {
       convs,
       msgs,
@@ -32,16 +33,16 @@ export class Store {
   }
 
   clearStorage = async () => {
-    const ids = [...this.storage.convs, ...this.storage.msgs]
-    if (ids.length <= 0) return
+    const keys = [...this.storage.convs, ...this.storage.msgs]
+    if (keys.length <= 0) return
     Modal.confirm({
       title: '提示',
       content: '这将清除所有的会话和消息，确定这么做吗？',
       onOk: () => {
         stores.chat.destory()
         homeStore.destory()
-        for (const id of ids) {
-          utools.db.remove(id)
+        for (const key of keys) {
+          platform.db.removeItem(key)
         }
         this.storage.convs = []
         this.storage.msgs = []

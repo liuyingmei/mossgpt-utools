@@ -1,5 +1,6 @@
 import { Template } from '../../models/template'
 import { toHome } from '../../pages/home/route'
+import { platform } from '../platform'
 import { Storage } from '../storage'
 import { generateCode } from './code'
 import { FeatureType } from './type'
@@ -8,14 +9,13 @@ export class MessageTemplateFeature {
   static type = FeatureType.messageTemplate
 
   static unregister(template: Template) {
-    utools.removeFeature(generateCode(this.type, template.id!))
+    platform.removeFeature(generateCode(this.type, template.id!))
   }
 
   static register(template: Template) {
-    utools.setFeature({
+    platform.setFeature({
       code: generateCode(this.type, template.id!),
       explain: template.title,
-      platform: ['win32', 'darwin', 'linux'],
       cmds: [
         {
           type: template.matchType,

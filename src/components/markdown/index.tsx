@@ -11,6 +11,7 @@ import RemarkGFM from 'remark-gfm'
 import RemarkMathPlugin from 'remark-math'
 import { navigate } from '../../router'
 import { copyToClipboard } from '../../shared/func/copyToClipboard'
+import { platform } from '../../shared/platform'
 import { stores } from '../../stores'
 import styles from './index.module.scss'
 
@@ -32,7 +33,7 @@ export const Markdown: FC<Props> = ({ children, dark }) => {
             },
           })
         } else {
-          utools.shellOpenExternal(href)
+          platform.shellOpenExternal(href)
         }
         break
       case 'IMG':

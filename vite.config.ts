@@ -40,17 +40,21 @@ export default defineConfig(({ command }) => {
       ],
     },
     plugins: [
-      ...prePlugins,
-      wasm(),
-      topLevelAwait(),
       replaceCodePlugin({
         replacements: [
           {
             from: '__INTRODUCTION__',
             to: `\`${introduction.replace(/`/g, '\\`')}\``,
           },
+          {
+            from: '__PLATFORM__',
+            to: process.env.PLATFORM ?? 'utools',
+          },
         ],
       }),
+      ...prePlugins,
+      wasm(),
+      topLevelAwait(),
       vitePluginPreload(
         './src/preload.ts',
         command === 'serve' ? 'buildStart' : 'writeBundle'

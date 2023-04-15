@@ -11,18 +11,19 @@ import { Template } from '../../models/template'
 import { IConfig, IgnoreType } from '../../types'
 import { filterSameValue } from '../func/filterSameValue'
 import { isNil } from '../func/isNil'
+import { platform } from '../platform'
 
 export class Storage {
   static getApiKey() {
-    return utools.dbStorage.getItem('apiKey')
+    return this.getItem('apiKey')
   }
 
   static setApiKey(key: string) {
-    return utools.dbStorage.setItem('apiKey', key)
+    return this.setItem('apiKey', key)
   }
 
   static setConversation(it: Conversation) {
-    utools.dbStorage.setItem(`c-${it.id}`, it.toJSON())
+    this.setItem(`c-${it.id}`, it.toJSON())
     commandPanelStore.setDoc({
       id: it.id,
       text: it.name,
@@ -31,22 +32,22 @@ export class Storage {
   }
 
   static getConversations() {
-    const conversations = utools.db.allDocs(`c-`)
+    const conversations = this.get(`c-`)
     return conversations.map(({ value }: any) => {
       return new Conversation(value)
     })
   }
 
   static removeConversation(id: string) {
-    utools.dbStorage.removeItem(`c-${id}`)
+    this.removeItem(`c-${id}`)
   }
 
   static getMessage(id: string) {
-    return new Message(utools.dbStorage.getItem(`m-${id}`))
+    return new Message(this.getItem(`m-${id}`))
   }
 
   static setMessage(it: Message) {
-    utools.dbStorage.setItem(`m-${it.id}`, it.toJSON())
+    this.setItem(`m-${it.id}`, it.toJSON())
     commandPanelStore.setDoc({
       id: it.id,
       text: it.text,
@@ -56,7 +57,7 @@ export class Storage {
   }
 
   static getMessagesByConversationId(id: string) {
-    return utools.db.allDocs(`m-${id}`).map(({ value }) => new Message(value))
+    return this.get(`m-${id}`).map(({ value }) => new Message(value))
   }
 
   static removeMessagesByConversationId(id: string) {
@@ -64,11 +65,11 @@ export class Storage {
   }
 
   static removeMessage(id: string) {
-    utools.dbStorage.removeItem(`m-${id}`)
+    this.removeItem(`m-${id}`)
   }
 
   static getConfig(): IConfig {
-    const config = utools.dbStorage.getItem('config')
+    const config = this.getItem('config')
     const proxy = Object.assign({}, DefaultConfig.proxy, config?.proxy)
     const setting = Object.assign({}, DefaultConfig.setting, config?.setting)
     return Object.assign({}, DefaultConfig, config, { proxy, setting })
@@ -76,15 +77,15 @@ export class Storage {
 
   static setConfig(config: Partial<IConfig>) {
     config = filterSameValue(DefaultConfig, config)
-    utools.dbStorage.setItem('config', config)
+    this.setItem('config', config)
   }
 
   static removeConfig() {
-    utools.dbStorage.removeItem('config')
+    this.removeItem('config')
   }
 
   static getTemplates() {
-    let templates = utools.db.allDocs('t-').map((it) => it.value)
+    let templates = this.get('t-').map((it) => it.value)
     if (templates.length === 0) {
       templates = DefaultMessageTemplates.map((it, i) => {
         return new Template({
@@ -99,20 +100,20 @@ export class Storage {
   }
 
   static getTemplate(id: string) {
-    const it = utools.dbStorage.getItem(`t-${id}`)
+    const it = this.getItem(`t-${id}`)
     return new Template(it)
   }
 
   static setTemplate(it: Template) {
-    utools.dbStorage.setItem(`t-${it.id}`, it.toJSON())
+    this.setItem(`t-${it.id}`, it.toJSON())
   }
 
   static removeTemplate(id: string) {
-    utools.dbStorage.removeItem(`t-${id}`)
+    this.removeItem(`t-${id}`)
   }
 
   static getConversationTemplates() {
-    let its = utools.db.allDocs('ct-').map((it) => it.value)
+    let its = this.get('ct-').map((it) => it.value)
     if (its.length === 0) {
       its = DefaultConversationTemplates.map((it, i) => ({
         id: Date.now() + '' + i,
@@ -127,20 +128,20 @@ export class Storage {
   }
 
   static getConversationTemplate(id: string) {
-    const it = utools.dbStorage.getItem(`ct-${id}`)
+    const it = this.getItem(`ct-${id}`)
     return new Template(it)
   }
 
   static setConversationTemplate(it: ConversationTemplate) {
-    utools.dbStorage.setItem(`ct-${it.id}`, it.toJSON())
+    this.setItem(`ct-${it.id}`, it.toJSON())
   }
 
   static removeConversationTemplate(id: string) {
-    utools.dbStorage.removeItem(`ct-${id}`)
+    this.removeItem(`ct-${id}`)
   }
 
   static getLastDataVersion() {
-    const lastDataVersion = utools.dbStorage.getItem('dataVersion')
+    const lastDataVersion = this.getItem('dataVersion')
     if (lastDataVersion === null || lastDataVersion === undefined) {
       return -1
     }
@@ -148,52 +149,52 @@ export class Storage {
   }
 
   static setLastDataVersion(version: number) {
-    utools.dbStorage.setItem('dataVersion', version)
+    this.setItem('dataVersion', version)
   }
 
   static setTheme(theme: string) {
-    utools.dbStorage.setItem('theme', theme)
+    this.setItem('theme', theme)
   }
 
   static getTheme() {
-    const theme = utools.dbStorage.getItem('theme')
+    const theme = this.getItem('theme')
     if (theme) return theme
-    else return utools.isDarkColors() ? 'dark' : 'light'
+    else return platform.isDarkColors() ? 'dark' : 'light'
   }
 
   static removeTheme() {
-    utools.dbStorage.removeItem('theme')
+    this.removeItem('theme')
   }
 
   static setIgnore(type: IgnoreType, value: string) {
-    utools.dbStorage.setItem(`${type}-ignore-${value}`, true)
+    this.setItem(`${type}-ignore-${value}`, true)
   }
 
   static getIgnore(type: IgnoreType, value: string): boolean {
-    const ignore = utools.dbStorage.getItem(`${type}-ignore-${value}`)
+    const ignore = this.getItem(`${type}-ignore-${value}`)
     return isNil(ignore) ? false : true
   }
 
   static setItem(key: string, value: any) {
-    utools.dbStorage.setItem(key, value)
+    platform.db.setItem(key, value)
   }
 
   static removeItem(key: string) {
-    utools.dbStorage.removeItem(key)
+    platform.db.removeItem(key)
   }
 
   static getItem(key: string) {
-    utools.dbStorage.getItem(key)
+    return platform.db.getItem(key)
   }
 
   static get(key?: string) {
-    return utools.db.allDocs(key) as (DbDoc & { value: any })[]
+    return platform.db.get(key)
   }
 
   static remove(key?: string) {
     const docs = this.get(key)
     for (const doc of docs) {
-      utools.db.remove(doc._id)
+      platform.db.removeItem(doc.key)
     }
   }
 }

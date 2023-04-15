@@ -3,6 +3,7 @@ import { makeAutoObservable } from 'mobx'
 import { toHome } from '../../../pages/home/route'
 import { stores } from '../../../stores'
 import { FuseDoc, FuseItem } from './type'
+import { platform } from '../../../shared/platform'
 
 export const commandPanelStore = new (class {
   constructor() {
@@ -28,14 +29,14 @@ export const commandPanelStore = new (class {
 
   init = () => {
     if (this.fuse) return
-    const convs = utools.db.allDocs('c-').map(({ value }) => {
+    const convs = platform.db.get('c-').map(({ value }) => {
       return {
         id: value.id,
         type: 'conversation' as const,
         text: value.name,
       }
     })
-    const msgs = utools.db.allDocs('m-').map(({ value }) => {
+    const msgs = platform.db.get('m-').map(({ value }) => {
       return {
         id: value.id,
         type: 'message' as const,

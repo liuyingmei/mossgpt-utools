@@ -1,9 +1,10 @@
 import { toHome } from '../../pages/home/route'
 import { toTranslation } from '../../pages/translation/route'
 import { handleFeature } from '../features'
+import { platform } from '../platform'
 
 export function registerHooks() {
-  utools.onPluginEnter(({ code, payload }) => {
+  platform.onEnter(({ code, payload }) => {
     if (code === 'text') {
       toHome({ query: { text: payload } })
     } else if (code === 'translation') {

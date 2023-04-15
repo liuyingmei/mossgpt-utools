@@ -9,6 +9,7 @@ import { openNotice } from '../components/popups/notice'
 import { openUpdate } from '../components/popups/update'
 import { Qrcode } from '../components/qrcode'
 import { Urls } from '../constance'
+import { platform } from '../shared/platform'
 import { Storage } from '../shared/storage'
 import { IgnoreType } from '../types'
 
@@ -31,31 +32,31 @@ export class AppStore {
   }
 
   openApiKeyUrl = () => {
-    utools.shellOpenExternal('https://platform.openai.com/account/api-keys')
+    platform.shellOpenExternal('https://platform.openai.com/account/api-keys')
   }
 
   openShareUrl = () => {
-    utools.shellOpenExternal(
+    platform.shellOpenExternal(
       'https://github.com/lblblong/mossgpt-utools/issues/4'
     )
   }
 
   openProxyShareUrl = () => {
-    utools.shellOpenExternal(
+    platform.shellOpenExternal(
       'https://github.com/lblblong/mossgpt-utools/issues/53'
     )
   }
 
   openGitHub = () => {
-    utools.shellOpenExternal(Urls.repo)
+    platform.shellOpenExternal(Urls.repo)
   }
 
   openOpenAIUsage = () => {
-    utools.shellOpenExternal('https://platform.openai.com/account/usage')
+    platform.shellOpenExternal('https://platform.openai.com/account/usage')
   }
 
   openOneClickDeploy = () => {
-    utools.shellOpenExternal(
+    platform.shellOpenExternal(
       'https://dash.deno.com/new?url=https://raw.githubusercontent.com/justjavac/openai-proxy/main/main.ts'
     )
   }
@@ -63,7 +64,7 @@ export class AppStore {
   setTheme = (theme: 'light' | 'dark' | 'auto') => {
     if (theme === 'auto') {
       Storage.removeTheme()
-      theme = utools.isDarkColors() ? 'dark' : 'light'
+      theme = platform.isDarkColors() ? 'dark' : 'light'
     } else {
       Storage.setTheme(theme)
     }
@@ -99,7 +100,7 @@ export class AppStore {
           Storage.setIgnore(IgnoreType.version, tag_name)
         },
         onUpdate() {
-          utools.shellOpenExternal(html_url)
+          platform.shellOpenExternal(html_url)
         },
       })
     }, 600)
