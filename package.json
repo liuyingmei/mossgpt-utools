@@ -1,7 +1,7 @@
 {
   "name": "mossgpt",
   "private": true,
-  "version": "2.6.2",
+  "version": "2.7.0",
   "scripts": {
     "dev": "cross-env PLATFORM=utools vite",
     "dev:utools": "cross-env PLATFORM=utools vite",
@@ -43,6 +43,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.1",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/node": "^18.8.5",
     "@types/pangu": "^4.0.0",

@@ -6,7 +6,7 @@ import { platform } from '../platform'
 export function registerHooks() {
   platform.onEnter(({ code, payload }) => {
     if (code === 'text') {
-      toHome({ query: { text: payload } })
+      toHome({ query: { text: `请解释这段文字：${payload}` } })
     } else if (code === 'translation') {
       toTranslation({ query: { text: payload } })
     } else if (code.startsWith('moss-')) {

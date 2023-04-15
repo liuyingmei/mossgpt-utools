@@ -1,4 +1,5 @@
-import 'utools-api-types'
+/// <reference path="../../../node_modules/utools-api-types/index.d.ts" />
+
 import { FeatureOption, IPlatform, OnEnter } from './interface'
 
 export default new (class implements IPlatform {
