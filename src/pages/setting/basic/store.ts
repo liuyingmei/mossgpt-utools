@@ -28,6 +28,15 @@ export class Store {
 
   fields: Pick<IConfig, 'apiBaseUrl' | 'model' | 'max_tokens' | 'systemMessage'>
 
+  setModel = (model: string) => {
+    this.fields.model = model
+    if (model.includes('gpt-4')) {
+      message.info(
+        'GPT4 模型需要您的 OpenAI 账号具备相应使用权限，如无法使用请检查确认。'
+      )
+    }
+  }
+
   apiKey: string
 
   onSubmit = () => {

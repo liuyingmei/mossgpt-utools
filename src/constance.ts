@@ -2,7 +2,14 @@ import { Message } from './models/message'
 import { MatchType } from './models/template'
 import { IConfig, MessageShortcutKey } from './types'
 
-export const Models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
+export const Models = [
+  'gpt-3.5-turbo',
+  'gpt-3.5-turbo-0301',
+  'gpt-4',
+  'gpt-4-0314',
+  'gpt-4-32k',
+  'gpt-4-32k-0314',
+]
 
 export const DefaultConfig: IConfig = {
   model: Models[0],

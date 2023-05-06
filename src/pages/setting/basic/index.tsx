@@ -113,7 +113,7 @@ export function BasicSetting() {
                 }
               })}
               defaultValue={Models[0]}
-              onChange={(val) => (store.fields.model = val)}
+              onChange={(val) => store.setModel(val)}
             />
           </Form.Item>
         </Col>

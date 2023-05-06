@@ -96,6 +96,7 @@ export const InputArea = () => {
           <textarea
             ref={store.inputRef}
             value={store.value}
+            autoFocus
             onChange={({ target }) => store.onValueChange(target.value)}
             onCompositionStart={() => (store.isCompositionStarted = true)}
             onCompositionEnd={() => (store.isCompositionStarted = false)}
